@@ -1,0 +1,49 @@
+BootStrap: yum
+OSVersion: 7
+MirrorURL: http://mirror.centos.org/centos-%{OSVERSION}/%{OSVERSION}/os/$basearch/
+Include: yum wget
+%setup
+    # commands to be executed on host outside container during bootstrap
+    cp ./cudnn-9.0-linux-x64-v7.4.1.5.tgz $SINGULARITY_ROOTFS
+%test
+    # commands to be executed within container at close of bootstrap process
+    exec /usr/bin/python3.5 --version
+%environment
+    export CUDA_HOME=/usr/local/cuda
+    CUDA_LIB=$CUDA_HOME/lib64
+    CUDA_INCLUDE=$CUDA_HOME/include
+    CUDA_BIN=$CUDA_HOME/bin
+    export LD_LIBRARY_PATH=$CUDA_LIB
+    export PATH=$CUDA_BIN:$PATH
+%runscript
+    # commands to be executed when the container runs
+    echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
+    echo "PATH: $PATH"
+    echo "Arguments received: $*"
+    exec /usr/bin/python3.5 "$@"
+%post
+    # commands to be executed inside container during bootstrap
+    yum -y install epel-release
+    yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+    yum -y install http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-repo-rhel7-9.0.176-1.x86_64.rpm
+    yum clean all && yum makecache
+    yum -y install wget python35u python35u-pip libgomp cuda-runtime-9-0 python35u-tkinter
+    ln -s /usr/local/cuda-9.0 /usr/local/cuda
+    # install cudnn
+    tar -xf /cudnn-9.0-linux-x64-v7.4.1.5.tgz -C /usr/local
+    rm /cudnn-9.0-linux-x64-v7.4.1.5.tgz
+    # install tensorflow
+    pip3.5 install --upgrade pip
+    pip3.5 install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.5.0-cp35-cp35m-linux_x86_64.whl
+    pip3.5 install wheel
+    pip3.5 install Pillow
+    pip3.5 install h5py
+    pip3.5 install keras_applications
+    pip3.5 install keras_preprocessing
+    pip3.5 install matplotlib
+    pip3.5 install numpy
+    pip3.5 install scipy
+    pip3.5 install pyDOE
+    pip3.5 install pandas
+    # in-container bind points for shared filesystems
+    mkdir -p /oasis /projects /scratch

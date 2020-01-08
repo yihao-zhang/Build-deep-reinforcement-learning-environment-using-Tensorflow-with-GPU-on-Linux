@@ -1,0 +1,2 @@
+%_var /var
+%_dbpath %{_var}/lib/rpm
