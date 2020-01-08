@@ -52,7 +52,7 @@ Here I create an empty container with size of 5GB and named “tensorflow.img”
 
 ## **Step 3. Create the .def file which is used to bootstrap the image**
 
-An example is shown in the cent.def file.
+An example is shown in the [cent.def](./cent.def) file.
 
 Other examples can be found in the links below:
 
