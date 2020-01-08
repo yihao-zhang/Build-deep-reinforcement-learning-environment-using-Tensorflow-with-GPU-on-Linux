@@ -68,7 +68,7 @@ The “cudnn-9.0-linux-x64-v7.4.1.5.tgz” is the cuDNN v7.4.1 for CUDA 9.0 inst
 
 https://developer.nvidia.com/cudnn. You'll need to download it from NVIDIA and modify the path accordingly.
 
-## **4. Install the yum**
+## **4. Install yum**
 
 CentOS users may skip this step
 
