@@ -1,7 +1,7 @@
 # Build-deep-reinforcement-learning-environment-using-Tensorflow-with-GPU-on-Linux
 
 When I started working on deep reinforcement learning, the first issue I had is how to build a robust deep reinforcement learning environment. For users who work on a HPC cluster where you are not allowed to install anything, it is crucial to use the python libraries that are required but not installed in the system. An excellent approach is to use the Singularity container.
-I will list the steps to build a deep reinforcement learning environment on Ubuntu 18.04/CentOS 7 system using the singularity container and run it on a linux HPC cluster. If you are working on a machine where you will have full control, the easiest way to build a deep reinforcement learning environment using Tensorflow GPU is to install the Anaconda. The singularity container is an environment that you can have full control. This is extremely useful when you are working on a HPC cluster since you don’t need to ask your cluster admin to install anything for you. Also, you can maintain python libraries of different versions inside a container without changing the system’s configuration. More information about the Singularity can be found at https://singularity.lbl.gov/
+I will list the steps to build a deep reinforcement learning environment on Ubuntu 18.04/CentOS 7 system using the singularity container and run it on a linux HPC cluster. If you are working on a machine where you will have full control, the easiest way to build a deep reinforcement learning environment using Tensorflow GPU is to install the [Anaconda](#For-users-working-on-their-own-machine). The singularity container is an environment that you can have full control. This is extremely useful when you are working on a HPC cluster since you don’t need to ask your cluster admin to install anything for you. Also, you can maintain python libraries of different versions inside a container without changing the system’s configuration. More information about the Singularity can be found at https://singularity.lbl.gov/
 
 ## **Prerequisite:**
 **1. A Ubuntu 18.04/CentOS 7 system where you have full control**
@@ -68,7 +68,7 @@ The “cudnn-9.0-linux-x64-v7.4.1.5.tgz” is the cuDNN v7.4.1 for CUDA 9.0 inst
 
 https://developer.nvidia.com/cudnn. You'll need to download it from NVIDIA and modify the path accordingly.
 
-## **4. Install yum**
+## **Step 4. Install yum**
 
 CentOS users may skip this step
 
@@ -82,13 +82,13 @@ Create a file named .rpmmacros which include the following lines
 
 Then sudo cp . rpmmacros /root/
 
-## **5. Build the Singularity container**
+## **Step 5. Build the Singularity container**
 
 sudo singularity bootstrap tensorflow.img cent.def
 
 After the container is built, you can try using the python3.5 and import tensorflow to check if it works.
 
-## **6. Upgrade Tensorflow GPU**
+## **Step 6. Upgrade Tensorflow GPU**
 
 sudo singularity shell --writable tensor.img
 
@@ -96,7 +96,7 @@ pip3.5 install --upgrade tensorflow-gpu==1.12.0
 
 This version of tensorflow gpu is compatible with CUDA and cuDNN installed
 
-## **7. Install TRFL**
+## **Step 7. Install TRFL**
 
 TRFL is a library built on top of TensorFlow that exposes several useful building blocks for implementing Reinforcement Learning agents. https://github.com/deepmind/trfl
 
